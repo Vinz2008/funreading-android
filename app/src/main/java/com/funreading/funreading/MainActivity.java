@@ -28,4 +28,19 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK) && web.canGoBack()) {
+            //if Back key pressed and webview can navigate to previous page
+            web.goBack();
+            // go back to previous page
+            return true;
+        }
+        else
+        {
+            finish();
+            // finish the activity
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
