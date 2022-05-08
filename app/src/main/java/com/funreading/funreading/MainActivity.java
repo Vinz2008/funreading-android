@@ -1,7 +1,12 @@
 package com.funreading.funreading;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -27,6 +32,26 @@ public class MainActivity extends AppCompatActivity {
         public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
             return false;
         }
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon){
+            if (!Uri.parse(url).getHost().contains("funreading.fr")){
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(browserIntent);
+                web.goBack();
+            }else{
+                super.onPageStarted(view,url,favicon);
+            }
+        }
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (!Uri.parse(url).getHost().contains("funreading.fr")) {
+                return false;
+            }else {
+                view.loadUrl(url);
+                return true;
+            }
+
+        }
     }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -43,4 +68,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 }
